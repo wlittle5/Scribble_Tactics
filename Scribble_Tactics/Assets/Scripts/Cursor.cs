@@ -7,6 +7,8 @@ public class Cursor : MonoBehaviour
     private float moveSpeed = 6f;
 
     // Update is called once per frame
+    // Unless its not, then it just wont work. 
+    // also, you cant tell me what to do.
     void Update()
     {
         Vector2 inputVector = new Vector2(0, 0);
