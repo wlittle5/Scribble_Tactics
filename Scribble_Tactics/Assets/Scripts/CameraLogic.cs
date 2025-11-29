@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class Cursor : MonoBehaviour
+public class Camera_Follow : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
@@ -25,6 +25,7 @@ public class Cursor : MonoBehaviour
     private void Awake()
     {
         followOffset = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset;
+        Debug.Log(followOffset);
     }
     void Update()
     {
