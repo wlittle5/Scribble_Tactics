@@ -33,7 +33,7 @@ public partial class @CursorControls: IInputActionCollection2, IDisposable
                     ""id"": ""8a71a0c2-ae04-42b4-8d85-449b39795d38"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=6)"",
+                    ""interactions"": ""Tap"",
                     ""initialStateCheck"": false
                 }
             ],

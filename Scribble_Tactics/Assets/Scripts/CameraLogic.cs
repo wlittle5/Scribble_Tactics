@@ -25,8 +25,8 @@ public class Camera_Follow : MonoBehaviour
     private void Awake()
     {
         followOffset = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset;
-        Debug.Log(followOffset);
     }
+
     void Update()
     {
         HandleCameraMovement();
@@ -68,25 +68,37 @@ public class Camera_Follow : MonoBehaviour
     {
         Vector3 zoomDir = followOffset.normalized;
 
+        /*if (Input.mouseScrollDelta.y > 0)
+        {
+            cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3 (0, 10, -20);
+        }
+        */
         float zoomAmount = 3f;
 
         if (Input.mouseScrollDelta.y > 0)
+        {
             followOffset += zoomDir * zoomAmount;
-        
+            cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = followOffset;
+        }
+
 
         if (Input.mouseScrollDelta.y < 0)
-            followOffset -= zoomDir * zoomAmount;
-        
+        {
+            followOffset -= zoomDir *zoomAmount;
+            cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = followOffset;
+        }
+
+        //Debug.Log(followOffset);
 
         /*if (followOffset.magnitude < followOffsetMin)        
             followOffset = zoomDir * followOffsetMin;
         
         
         if (followOffset.magnitude > followOffsetMax)        
-            followOffset = zoomDir * followOffsetMax;*/
-        
+            followOffset = zoomDir * followOffsetMax;
 
-        cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = Vector3.Lerp(cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset, followOffset, Time.deltaTime);
-        
+
+        //cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = followOffset;
+        */
     }
 }
