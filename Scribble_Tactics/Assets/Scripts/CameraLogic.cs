@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Unity.VisualScripting;
 
 public class Camera_Follow : MonoBehaviour
 {
@@ -18,15 +19,21 @@ public class Camera_Follow : MonoBehaviour
     //Zoom variables
     [SerializeField] private float fieldOfViewMin = 5f;
     [SerializeField] private float fieldOfViewMax = 50f;
-    [SerializeField] private float zoomSpeed = 6f;
+    [SerializeField] private float zoomSpeed = 10f;
 
     private float targetFieldOfView = 50;
+
+    //Drag pan variables
+    [SerializeField] private float dragPanSpeed = 2f;
+    [SerializeField] private bool dragPanMoveActive;
+    private Vector2 lastMousePosition;
 
     void Update()
     {
         HandleCameraMovement();
         HandleCameraEdgeMovement();
         HandleCameraZoom_FieldOfView();
+        HandleCameraDragPan();
     }
 
     private void HandleCameraMovement()
@@ -72,9 +79,34 @@ public class Camera_Follow : MonoBehaviour
 
         targetFieldOfView = Mathf.Clamp(targetFieldOfView, fieldOfViewMin, fieldOfViewMax);
 
-        float zoomSpeed = 10f;
         cinemachineVirtualCamera.m_Lens.FieldOfView =
             Mathf.Lerp(cinemachineVirtualCamera.m_Lens.FieldOfView, targetFieldOfView, Time.deltaTime * zoomSpeed);
     }
 
+    private void HandleCameraDragPan()
+    {
+        Vector3 inputDir = new Vector3(0, 0, 0);
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            dragPanMoveActive = true;
+            lastMousePosition = Input.mousePosition;
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            dragPanMoveActive = false;
+        }
+
+        if (dragPanMoveActive)
+        {
+            Vector2 mouseMovementDelta = (Vector2)Input.mousePosition - lastMousePosition;
+
+            inputDir.x = -mouseMovementDelta.x * dragPanSpeed;
+            inputDir.y = -mouseMovementDelta.y * dragPanSpeed;
+
+            lastMousePosition = (Vector2)Input.mousePosition;
+
+            transform.position += inputDir * moveSpeed * Time.deltaTime;
+        }
+    }
 }

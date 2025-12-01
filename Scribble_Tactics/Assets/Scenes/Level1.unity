@@ -776,13 +776,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineVirtualCamera: {fileID: 952626692}
-  moveSpeed: 10
+  moveSpeed: 15
   edgeSpeed: 20
   edgeScrollSize: 20
   edgeScroll: 1
   fieldOfViewMin: 20
   fieldOfViewMax: 75
-  zoomSpeed: 6
+  zoomSpeed: 10
+  dragPanSpeed: 0.25
+  dragPanMoveActive: 0
 --- !u!1 &1948449452
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +938,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursor: {fileID: 2800000, guid: 85c5cd271801a694198b8138def24557, type: 3}
-  cursorClicked: {fileID: 2800000, guid: af8218de58813724bae997670c316891, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
