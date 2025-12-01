@@ -14,26 +14,34 @@ public class Camera_Follow : MonoBehaviour
     //Edge scrolling variables
     [SerializeField] private float edgeSpeed = 20f;
     [SerializeField] private int edgeScrollSize = 20;
-    [SerializeField] private bool edgeScroll = true;
+    [SerializeField] private bool useEdgeScroll = true;
 
     //Zoom variables
     [SerializeField] private float fieldOfViewMin = 5f;
     [SerializeField] private float fieldOfViewMax = 50f;
     [SerializeField] private float zoomSpeed = 10f;
+    [SerializeField] private bool useCameraZoom = true;
 
     private float targetFieldOfView = 50;
 
     //Drag pan variables
     [SerializeField] private float dragPanSpeed = 2f;
-    [SerializeField] private bool dragPanMoveActive;
+    [SerializeField] private bool useDragMove = true;
     private Vector2 lastMousePosition;
+    private bool dragPanMoveActive;
 
     void Update()
     {
         HandleCameraMovement();
-        HandleCameraEdgeMovement();
-        HandleCameraZoom_FieldOfView();
-        HandleCameraDragPan();
+
+        if (useEdgeScroll)
+            HandleCameraEdgeMovement();
+
+        if(useCameraZoom)
+            HandleCameraZoom_FieldOfView();
+
+        if(useDragMove)
+            HandleCameraDragPan();
     }
 
     private void HandleCameraMovement()
@@ -56,10 +64,10 @@ public class Camera_Follow : MonoBehaviour
         Vector2 edgeInputVector = new Vector2(0, 0);
 
         //Edge Scrolling logic
-        if (Input.mousePosition.x < edgeScrollSize && edgeScroll) edgeInputVector.x = -1f;
-        if (Input.mousePosition.y < edgeScrollSize && edgeScroll) edgeInputVector.y = -1f;
-        if (Input.mousePosition.x > Screen.width - edgeScrollSize && edgeScroll) edgeInputVector.x = +1f;
-        if (Input.mousePosition.y > Screen.height - edgeScrollSize && edgeScroll) edgeInputVector.y = +1f;
+        if (Input.mousePosition.x < edgeScrollSize) edgeInputVector.x = -1f;
+        if (Input.mousePosition.y < edgeScrollSize) edgeInputVector.y = -1f;
+        if (Input.mousePosition.x > Screen.width - edgeScrollSize) edgeInputVector.x = +1f;
+        if (Input.mousePosition.y > Screen.height - edgeScrollSize) edgeInputVector.y = +1f;
 
 
         edgeInputVector = edgeInputVector.normalized;
