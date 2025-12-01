@@ -780,7 +780,7 @@ MonoBehaviour:
   edgeSpeed: 20
   edgeScrollSize: 20
   edgeScroll: 1
-  fieldOfViewMin: 20
+  fieldOfViewMin: 30
   fieldOfViewMax: 75
   zoomSpeed: 10
   dragPanSpeed: 0.25
