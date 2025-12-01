@@ -320,7 +320,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1.31
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -363,7 +363,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 5000
+  m_ColorTemperature: 7280
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -378,13 +378,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3069873, y: 0.32203972, z: -0.38629004, w: 0.8079785}
+  m_LocalRotation: {x: 0.17557575, y: 0.25701442, z: -0.4322886, w: 0.84631157}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 48.149, y: 25.119, z: -39.736}
+  m_LocalEulerAnglesHint: {x: 31.292, y: 19.356, z: -48.646}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,8 +673,8 @@ MonoBehaviour:
   edgeSpeed: 20
   edgeScrollSize: 20
   useEdgeScroll: 1
-  fieldOfViewMin: 30
-  fieldOfViewMax: 75
+  fieldOfViewMin: 20
+  fieldOfViewMax: 90
   zoomSpeed: 10
   useCameraZoom: 1
   dragPanSpeed: 0.25
@@ -802,7 +802,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0d73aacb288f96b4fba757f8d7a36f86,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 16.899837
+      value: 13.512604
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d73aacb288f96b4fba757f8d7a36f86,
         type: 3}
@@ -822,7 +822,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0d73aacb288f96b4fba757f8d7a36f86,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 26.2
+      value: 27.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d73aacb288f96b4fba757f8d7a36f86,
         type: 3}
@@ -1031,7 +1031,7 @@ Transform:
   m_GameObject: {fileID: 1948449452}
   serializedVersion: 2
   m_LocalRotation: {x: 0.027584499, y: -0.7065441, z: 0.7065929, w: -0.027586468}
-  m_LocalPosition: {x: 0.59, y: 0.72000027, z: 5.9}
+  m_LocalPosition: {x: 0.59, y: 0.72000027, z: 11}
   m_LocalScale: {x: 1.1244792, y: 0.381204, z: 1.6006501}
   m_ConstrainProportionsScale: 0
   m_Children: []
