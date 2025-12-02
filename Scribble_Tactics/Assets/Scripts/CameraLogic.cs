@@ -8,6 +8,12 @@ public class Camera_Follow : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
+    //Boundary variables for camera
+    [SerializeField] private int xBoundaryNegative = -25;
+    [SerializeField] private int yBoundaryNegative = -25;
+    [SerializeField] private int xBoundaryPositive = 25;
+    [SerializeField] private int yBoundaryPositive = 25;
+
     //Only for WASD movement speed
     [SerializeField] private float moveSpeed = 6f;
 
@@ -34,14 +40,16 @@ public class Camera_Follow : MonoBehaviour
     {
         HandleCameraMovement();
 
+        if (useDragMove)
+            HandleCameraDragPan();
+
         if (useEdgeScroll)
             HandleCameraEdgeMovement();
 
         if(useCameraZoom)
             HandleCameraZoom_FieldOfView();
-
-        if(useDragMove)
-            HandleCameraDragPan();
+        
+        CheckBoundaries();
     }
 
     private void HandleCameraMovement()
@@ -57,6 +65,7 @@ public class Camera_Follow : MonoBehaviour
         inputVector = inputVector.normalized;
 
         transform.position += (Vector3)inputVector * moveSpeed * Time.deltaTime;
+
     }
 
     private void HandleCameraEdgeMovement()
@@ -69,7 +78,7 @@ public class Camera_Follow : MonoBehaviour
         if (Input.mousePosition.x > Screen.width - edgeScrollSize) edgeInputVector.x = +1f;
         if (Input.mousePosition.y > Screen.height - edgeScrollSize) edgeInputVector.y = +1f;
 
-
+       
         edgeInputVector = edgeInputVector.normalized;
         transform.position += (Vector3)edgeInputVector * edgeSpeed * Time.deltaTime;
     }
@@ -99,10 +108,12 @@ public class Camera_Follow : MonoBehaviour
         {
             dragPanMoveActive = true;
             lastMousePosition = Input.mousePosition;
+            useEdgeScroll = false;
         }
         if (Input.GetMouseButtonUp(1))
         {
             dragPanMoveActive = false;
+            useEdgeScroll = true;
         }
 
         if (dragPanMoveActive)
@@ -116,5 +127,20 @@ public class Camera_Follow : MonoBehaviour
 
             transform.position += inputDir * moveSpeed * Time.deltaTime;
         }
+    }
+
+    private void CheckBoundaries()
+    {
+        if (transform.position.x < xBoundaryNegative)
+            transform.position = new Vector3(xBoundaryNegative, transform.position.y, transform.position.z);
+
+        if (transform.position.x > xBoundaryPositive)
+            transform.position = new Vector3(xBoundaryPositive, transform.position.y, transform.position.z);
+
+        if (transform.position.y < yBoundaryNegative)
+            transform.position = new Vector3(transform.position.x, yBoundaryNegative, transform.position.z);
+
+        if (transform.position.y > yBoundaryPositive)
+            transform.position = new Vector3(transform.position.x, yBoundaryPositive, transform.position.z);
     }
 }
