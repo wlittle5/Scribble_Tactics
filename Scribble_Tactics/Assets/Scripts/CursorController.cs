@@ -9,26 +9,20 @@ public class CursorController : MonoBehaviour
 
     [SerializeField] Texture2D cursorClicked;
 
-    private CursorControls controls;
+    private CursorControls control;
+
+
     private void Awake()
     {
-        controls = new CursorControls();
-    }
-
-    [SerializeField] Texture2D cursorClicked;
-
-    private CursorControls controls;
-    private void Awake()
-    {
-        controls = new CursorControls();
+        control = new CursorControls();
         ChangeCursor(cursor);
         Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Start()
     {
-        controls.Mouse.Click.started += _ => StartedClick();
-        controls.Mouse.Click.performed += _ => EndClick();
+        control.Mouse.Click.started += _ => StartedClick();
+        control.Mouse.Click.performed += _ => EndClick();
     }
 
     private void StartedClick()
@@ -42,12 +36,12 @@ public class CursorController : MonoBehaviour
     }
     private void OnEnable()
     {
-        controls.Enable();
+        control.Enable();
     }
 
     private void OnDisable()
     {
-        controls.Disable();
+        control.Disable();
     }
     
     private void ChangeCursor(Texture2D cursorType)
