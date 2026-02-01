@@ -9,10 +9,10 @@ public class Camera_Follow : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
     //Boundary variables for camera
-    [SerializeField] private int xBoundaryNegative = -25;
-    [SerializeField] private int yBoundaryNegative = -25;
-    [SerializeField] private int xBoundaryPositive = 25;
-    [SerializeField] private int yBoundaryPositive = 25;
+    [SerializeField] private float xBoundaryNegative = -25;
+    [SerializeField] private float yBoundaryNegative = -25;
+    [SerializeField] private float xBoundaryPositive = 25;
+    [SerializeField] private float yBoundaryPositive = 25;
 
     //Only for WASD movement speed
     [SerializeField] private float moveSpeed = 6f;
