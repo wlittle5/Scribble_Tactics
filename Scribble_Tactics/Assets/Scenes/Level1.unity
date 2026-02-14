@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 547079755}
   - component: {fileID: 547079754}
   - component: {fileID: 547079753}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Looseleaf Background (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1083,7 +1083,7 @@ GameObject:
   - component: {fileID: 1948449455}
   - component: {fileID: 1948449454}
   - component: {fileID: 1948449453}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Looseleaf Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1193,7 +1193,7 @@ GameObject:
   - component: {fileID: 2007882942}
   - component: {fileID: 2007882941}
   m_Layer: 6
-  m_Name: Player_Visual
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1278,10 +1278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd5c95e4a346e94284c4f52070aaaa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 64
   myCamera: {fileID: 330585545}
+  isSelected: 0
 --- !u!65 &2007882942
 BoxCollider:
   m_ObjectHideFlags: 0
