@@ -8,23 +8,26 @@ using UnityEngine.Windows;
 public class Player : MonoBehaviour
 {
     [SerializeField] Camera myCamera;
+    [SerializeField] float moveSpeed = 0.5f;
     
-    public bool isSelected = false;
+    private bool isSelected = false;
+    private bool canMove = false;
+    private bool isMoving = false;
     private int hitData;
+
     private RaycastHit rayCastHit;
-    Vector3 mousePos;
+    private Vector3 mousePos;
 
-
-    // Update is called once per frame
     void Update()
-    {      
-        if (Input.GetMouseButtonUp(0))
-        {
+    {  
+        if (Input.GetMouseButtonUp(0) && isMoving != true)
+        {       
             GetLayer();
-            if (MoveCheck())
-                MoveCharacter();
+            canMove = MoveCheck();    
         }
-        
+
+        if(canMove)
+            MoveCharacter();
     }
 
     private void GetLayer()
@@ -36,7 +39,6 @@ public class Player : MonoBehaviour
 
     private bool MoveCheck()
     {
-        Debug.Log(hitData);
         if ((hitData == 6) && !isSelected)
         {
             isSelected = true;
@@ -56,15 +58,23 @@ public class Player : MonoBehaviour
 
         else
         {
-            return false;
+            return isSelected;
         }
     }
 
     private void MoveCharacter()
     {
+        isMoving = true;
+        float step = moveSpeed * Time.deltaTime;
         mousePos = rayCastHit.point;
         mousePos.z = transform.position.z;
-        transform.position = mousePos;
-        isSelected = false;
+        transform.position = Vector3.MoveTowards(transform.position, mousePos, step);
+
+        if (transform.position == mousePos)
+        {
+            isSelected = false;
+            canMove = false;
+            isMoving = false;   
+        }
     }
 }

@@ -1279,6 +1279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCamera: {fileID: 330585545}
+  moveSpeed: 5
   isSelected: 0
 --- !u!65 &2007882942
 BoxCollider:
