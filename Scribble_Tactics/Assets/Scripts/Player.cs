@@ -4,12 +4,18 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Input = UnityEngine.Input;
 using UnityEngine.Windows;
+using Cinemachine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] Camera myCamera;
+    [SerializeField] GameObject range;
+    [SerializeField] GameObject freeCameraFollow;
+
+    [SerializeField] CinemachineVirtualCamera freeLookCamera;
+    [SerializeField] CinemachineVirtualCamera selectedCamera;
+
     [SerializeField] float moveSpeed = 0.5f;
-    
+
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
@@ -19,45 +25,54 @@ public class Player : MonoBehaviour
     private Vector3 mousePos;
 
     void Update()
-    {  
+    {
         if (Input.GetMouseButtonUp(0) && isMoving != true)
-        {       
+        {
             GetLayer();
-            canMove = MoveCheck();    
+            canMove = MoveCheck();
         }
 
-        if(canMove)
+        if (canMove)
+        {
             MoveCharacter();
+        }
     }
 
     private void GetLayer()
     {
-        Ray myRay = myCamera.ScreenPointToRay(Input.mousePosition);
+        Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(myRay, out rayCastHit);
         hitData = rayCastHit.transform.gameObject.layer;
     }
 
     private bool MoveCheck()
     {
+
         if ((hitData == 6) && !isSelected)
         {
             isSelected = true;
+            ShowSelectedCamera();
+            ShowRange();
             return false;
         }
 
-        if ((hitData == 8) && isSelected)
+        if ((hitData == 7) && isSelected)
         {
             return true;
         }
 
-        if ((hitData != 8) || (hitData != 6) && isSelected)
+        if ((hitData != 7) || (hitData != 6) && isSelected)
         {
             isSelected = false;
+            HideRange();
             return false;
         }
 
         else
         {
+            if (!isSelected)
+                HideRange();
+
             return isSelected;
         }
     }
@@ -74,7 +89,36 @@ public class Player : MonoBehaviour
         {
             isSelected = false;
             canMove = false;
-            isMoving = false;   
+            isMoving = false;
+            HideRange();
+            freeCameraFollow.transform.position = transform.position;
+            HideSelectedCamera();
         }
+
     }
+
+    private void ShowRange()
+    {
+        range.transform.position = transform.position;
+        range.gameObject.SetActive(true);
+    }
+
+    private void HideRange()
+    {
+        range.gameObject.SetActive(false);
+    }
+
+    private void ShowSelectedCamera()
+    {
+        freeLookCamera.enabled = false;
+        selectedCamera.enabled = true;
+    }
+
+    private void HideSelectedCamera()
+    {
+        selectedCamera.enabled = false;
+        freeLookCamera.enabled = true;
+    }
+
+
 }
