@@ -65,13 +65,18 @@ public class Player : MonoBehaviour
         {
             isSelected = false;
             HideRange();
+            HideSelectedCamera();
             return false;
         }
 
         else
         {
             if (!isSelected)
+            {
                 HideRange();
+                HideSelectedCamera();
+            }
+                
 
             return isSelected;
         }
