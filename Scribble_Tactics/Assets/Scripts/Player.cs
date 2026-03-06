@@ -10,16 +10,20 @@ public class Player : MonoBehaviour
 {
     [SerializeField] GameObject range;
     [SerializeField] GameObject freeCameraFollow;
+    [SerializeField] Transform cameraFollow;
 
     [SerializeField] CinemachineVirtualCamera freeLookCamera;
     [SerializeField] CinemachineVirtualCamera selectedCamera;
 
     [SerializeField] float moveSpeed = 0.5f;
+    [SerializeField] float cameraCenterSpeed = 3f;
 
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
     private int hitData;
+    private float elapsedTime;
+
 
     private RaycastHit rayCastHit;
     private Vector3 mousePos;
@@ -51,7 +55,8 @@ public class Player : MonoBehaviour
         if ((hitData == 6) && !isSelected)
         {
             isSelected = true;
-            ShowSelectedCamera();
+            //ShowSelectedCamera();
+            CenterCamera();
             ShowRange();
             return false;
         }
@@ -65,7 +70,7 @@ public class Player : MonoBehaviour
         {
             isSelected = false;
             HideRange();
-            HideSelectedCamera();
+            //HideSelectedCamera();
             return false;
         }
 
@@ -74,7 +79,7 @@ public class Player : MonoBehaviour
             if (!isSelected)
             {
                 HideRange();
-                HideSelectedCamera();
+               // HideSelectedCamera();
             }
                 
 
@@ -96,8 +101,8 @@ public class Player : MonoBehaviour
             canMove = false;
             isMoving = false;
             HideRange();
-            freeCameraFollow.transform.position = transform.position;
-            HideSelectedCamera();
+            //freeCameraFollow.transform.position = transform.position;
+            //HideSelectedCamera();
         }
 
     }
@@ -129,5 +134,15 @@ public class Player : MonoBehaviour
         freeLookCamera.enabled = true;
     }
 
+    private void CenterCamera()
+    {
+        Vector3 startPosition = cameraFollow.transform.position;
+        elapsedTime += Time.deltaTime;
+        float percentageComplete = elapsedTime / cameraCenterSpeed;
+
+        Vector3 position = transform.position;
+        position.z = cameraFollow.transform.position.z;
+        cameraFollow.transform.position = Vector3.Lerp(startPosition, position, percentageComplete);
+    }
 
 }

@@ -312,7 +312,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -22.2649}
+  m_LocalPosition: {x: -4.7, y: 0.8635745, z: -22.16}
   m_LocalScale: {x: 0.036578, y: 0.036578, z: 0.036578}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -991,6 +991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: {fileID: 2029600688}
   freeCameraFollow: {fileID: 1119057999}
+  cameraFollow: {fileID: 1119058000}
   freeLookCamera: {fileID: 952626692}
   selectedCamera: {fileID: 75499218}
   moveSpeed: 2
