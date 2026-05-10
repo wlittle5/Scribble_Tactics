@@ -109,11 +109,6 @@ public class Player : MonoBehaviour
 
     private void ShowRange()
     {
-        Vector3 transformPosition;
-        transformPosition = transform.position;
-        transformPosition.z = range.transform.position.z;
-        
-        range.transform.position = transformPosition;
         range.gameObject.SetActive(true);
     }
 
