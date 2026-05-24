@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         {
             isSelected = true;
             //ShowSelectedCamera();
-            CenterCamera();
+            //CenterCamera();
             ShowRange();
             return false;
         }
