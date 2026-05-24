@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
 
     private void MoveCharacter()
     {
+        HideRange();
         isMoving = true;
         float step = moveSpeed * Time.deltaTime;
         mousePos = rayCastHit.point;
@@ -100,7 +101,7 @@ public class Player : MonoBehaviour
             isSelected = false;
             canMove = false;
             isMoving = false;
-            HideRange();
+ 
             //freeCameraFollow.transform.position = transform.position;
             //HideSelectedCamera();
         }
