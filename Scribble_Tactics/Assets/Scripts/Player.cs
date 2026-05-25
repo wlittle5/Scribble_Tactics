@@ -141,4 +141,14 @@ public class Player : MonoBehaviour
         cameraFollow.transform.position = Vector3.Lerp(startPosition, position, percentageComplete);
     }
 
+    public bool IsSelected()
+    {
+        return isSelected;
+    }
+
+    public bool IsMoving() 
+    { 
+        return isMoving;
+    }
+
 }
