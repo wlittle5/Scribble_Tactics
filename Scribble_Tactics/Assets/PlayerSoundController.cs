@@ -2,29 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSoundController : MonoBehaviour
+public class SoundManager: MonoBehaviour
 {
-    [SerializeField] AudioClip audioClip;
-    private AudioSource selectSound;
-    private Player player;
+    private AudioSource audioSource;
 
-    private bool audioToggle = false;
+    [SerializeField] private AudioClipsRefsSO audioClipRefsSO;
 
     void Awake()
     {
-        selectSound = GetComponent<AudioSource>();
-        player = GetComponent<Player>();
+        audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        audioToggle = player.IsSelected();
-
-        if (audioToggle == true)
-        {
-            selectSound.Play();
-            audioToggle = false;
-        }
+        Player.Instance.OnSelected += Player_OnSelected;
+        Player.Instance.OnDeSelected += Player_OnDeSelected;
     }
+
+    private void Player_OnDeSelected(object sender, System.EventArgs e)
+    {
+        PlaySound(audioClipRefsSO.selectedPlayer, Camera.main.transform.position);
+    }
+
+    private void Player_OnSelected(object sender, System.EventArgs e)
+    {
+        //PlaySound();
+    }
+
+    private void PlaySound(AudioClip[] audioClipArray, Vector3 position, float volume = 1f)
+    {
+        AudioSource.PlayClipAtPoint(audioClipArray[audioClipArray.Length], position, volume);
+    }
+
+    private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f)
+    {
+        AudioSource.PlayClipAtPoint(audioClip, position, volume);
+    }
+    
 }
