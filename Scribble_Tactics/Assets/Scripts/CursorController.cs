@@ -16,7 +16,7 @@ public class CursorController : MonoBehaviour
     {
         control = new CursorControls();
         ChangeCursor(cursor);
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Start()
