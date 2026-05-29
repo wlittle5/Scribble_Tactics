@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class SoundManager: MonoBehaviour
 {
-    private AudioSource audioSource;
-
     [SerializeField] private AudioClipsRefsSO audioClipRefsSO;
-
-    void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     private void Start()
     {
@@ -21,12 +14,14 @@ public class SoundManager: MonoBehaviour
 
     private void Player_OnDeSelected(object sender, System.EventArgs e)
     {
-        PlaySound(audioClipRefsSO.selectedPlayer, Camera.main.transform.position);
+        Player player = Player.Instance;
+        PlaySound(audioClipRefsSO.deselectedPlayer, player.transform.position);
     }
 
     private void Player_OnSelected(object sender, System.EventArgs e)
     {
-        //PlaySound();
+        Player player = Player.Instance;
+        PlaySound(audioClipRefsSO.selectedPlayer, player.transform.position);
     }
 
     private void PlaySound(AudioClip[] audioClipArray, Vector3 position, float volume = 1f)

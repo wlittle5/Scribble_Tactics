@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+
         if (Input.GetMouseButtonUp(0) && isMoving != true)
         {
             GetLayer();
@@ -68,6 +69,7 @@ public class Player : MonoBehaviour
 
         if ((hitData != 7) || (hitData != 6) && isSelected)
         {
+            OnDeSelected?.Invoke(this, EventArgs.Empty);
             isSelected = false;
             HideRange();
             return false;
@@ -75,19 +77,14 @@ public class Player : MonoBehaviour
 
         else
         {
-            if (!isSelected)
-            {
-                HideRange();
-            } 
-
             return isSelected;
         }
     }
 
     private void MoveCharacter()
     {
-        HideRange();
         isMoving = true;
+        HideRange();
         float step = moveSpeed * Time.deltaTime;
         mousePos = rayCastHit.point;
         mousePos.z = transform.position.z;
@@ -111,8 +108,8 @@ public class Player : MonoBehaviour
     private void HideRange()
     {
         range.gameObject.SetActive(false);
-        OnDeSelected?.Invoke(this, EventArgs.Empty);
     }
+    
     public bool IsSelected()
     {
         return isSelected;
