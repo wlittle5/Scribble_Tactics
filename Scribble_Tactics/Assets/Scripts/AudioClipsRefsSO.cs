@@ -7,4 +7,5 @@ public class AudioClipsRefsSO : ScriptableObject
 {
     public AudioClip selectedPlayer;
     public AudioClip deselectedPlayer;
+    public AudioClip[] knightFootstep;
 }

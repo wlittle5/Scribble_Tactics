@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
     }
 
     public bool IsMoving() 
-    { 
+    {
         return isMoving;
     }
 
