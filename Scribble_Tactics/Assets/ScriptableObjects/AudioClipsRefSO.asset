@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310275f9a42ac56439af58e07c365bae, type: 3}
   m_Name: AudioClipsRefSO
   m_EditorClassIdentifier: 
-  selectedPlayer: {fileID: 8300000, guid: 745526cc81c674f44b9076b554ec5b7d, type: 3}
+  selectedPlayer:
+  - {fileID: 8300000, guid: 657db74eed19f404d8657a34412e0576, type: 3}
+  - {fileID: 8300000, guid: 84e9134ec1811af4c925e5b8961e59e7, type: 3}
+  - {fileID: 8300000, guid: 2094590e7bda96c408c8bc08cc2df49b, type: 3}
   deselectedPlayer: {fileID: 8300000, guid: 72127805eb2bc4e7fbf2e02eca266cfa, type: 3}
   knightFootstep:
   - {fileID: 8300000, guid: 8554100689e4767468a32aae06ede23d, type: 3}
