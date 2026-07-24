@@ -4,32 +4,35 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Input = UnityEngine.Input;
 using UnityEngine.Windows;
-using Cinemachine;
+using System;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
+    public event EventHandler OnSelected;
+    public event EventHandler OnDeSelected;
+
+    public static Player Instance { get; private set; }
+    
     [SerializeField] GameObject range;
-    [SerializeField] GameObject freeCameraFollow;
-    [SerializeField] Transform cameraFollow;
-
-    [SerializeField] CinemachineVirtualCamera freeLookCamera;
-    [SerializeField] CinemachineVirtualCamera selectedCamera;
-
     [SerializeField] float moveSpeed = 0.5f;
-    [SerializeField] float cameraCenterSpeed = 3f;
+
 
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
     private int hitData;
-    private float elapsedTime;
-
 
     private RaycastHit rayCastHit;
     private Vector3 mousePos;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Update()
     {
+
         if (Input.GetMouseButtonUp(0) && isMoving != true)
         {
             GetLayer();
@@ -55,8 +58,6 @@ public class Player : MonoBehaviour
         if ((hitData == 6) && !isSelected)
         {
             isSelected = true;
-            //ShowSelectedCamera();
-            //CenterCamera();
             ShowRange();
             return false;
         }
@@ -66,31 +67,24 @@ public class Player : MonoBehaviour
             return true;
         }
 
-        if ((hitData != 7) || (hitData != 6) && isSelected)
+        if (((hitData != 7) || (hitData != 6)) && isSelected)
         {
+            OnDeSelected?.Invoke(this, EventArgs.Empty);
             isSelected = false;
             HideRange();
-            //HideSelectedCamera();
             return false;
         }
 
         else
         {
-            if (!isSelected)
-            {
-                HideRange();
-               // HideSelectedCamera();
-            }
-                
-
             return isSelected;
         }
     }
 
     private void MoveCharacter()
     {
-        HideRange();
         isMoving = true;
+        HideRange();
         float step = moveSpeed * Time.deltaTime;
         mousePos = rayCastHit.point;
         mousePos.z = transform.position.z;
@@ -101,9 +95,6 @@ public class Player : MonoBehaviour
             isSelected = false;
             canMove = false;
             isMoving = false;
- 
-            //freeCameraFollow.transform.position = transform.position;
-            //HideSelectedCamera();
         }
 
     }
@@ -111,43 +102,21 @@ public class Player : MonoBehaviour
     private void ShowRange()
     {
         range.gameObject.SetActive(true);
+        OnSelected?.Invoke(this, EventArgs.Empty);
     }
 
     private void HideRange()
     {
         range.gameObject.SetActive(false);
     }
-
-    private void ShowSelectedCamera()
-    {
-        freeLookCamera.enabled = false;
-        selectedCamera.enabled = true;
-    }
-
-    private void HideSelectedCamera()
-    {
-        selectedCamera.enabled = false;
-        freeLookCamera.enabled = true;
-    }
-
-    private void CenterCamera()
-    {
-        Vector3 startPosition = cameraFollow.transform.position;
-        elapsedTime += Time.deltaTime;
-        float percentageComplete = elapsedTime / cameraCenterSpeed;
-
-        Vector3 position = transform.position;
-        position.z = cameraFollow.transform.position.z;
-        cameraFollow.transform.position = Vector3.Lerp(startPosition, position, percentageComplete);
-    }
-
+    
     public bool IsSelected()
     {
         return isSelected;
     }
 
     public bool IsMoving() 
-    { 
+    {
         return isMoving;
     }
 
