@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
             return true;
         }
 
-        if ((hitData != 7) || (hitData != 6) && isSelected)
+        if (((hitData != 7) || (hitData != 6)) && isSelected)
         {
             OnDeSelected?.Invoke(this, EventArgs.Empty);
             isSelected = false;
