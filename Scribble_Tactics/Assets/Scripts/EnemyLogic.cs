@@ -9,8 +9,8 @@ using UnityEngine.Events;
 
 public class EnemyLogic : MonoBehaviour
 {
-    public event EventHandler OnSelected;
-    public event EventHandler OnDeSelected;
+    public event EventHandler EnemyOnSelected;
+    public event EventHandler EnemyOnDeSelected;
 
     public static EnemyLogic Instance { get; private set; }
     
@@ -48,7 +48,7 @@ public class EnemyLogic : MonoBehaviour
     private bool MoveCheck()
     {
 
-        if ((hitData == 6) && !isSelected)
+        if ((hitData == 9) && !isSelected)
         {
             isSelected = true;
             ShowRange();
@@ -60,9 +60,9 @@ public class EnemyLogic : MonoBehaviour
             return true;
         }
 
-        if (((hitData != 7) || (hitData != 6)) && isSelected)
+        if (((hitData != 7) || (hitData != 9)) && isSelected)
         {
-            OnDeSelected?.Invoke(this, EventArgs.Empty);
+            EnemyOnDeSelected?.Invoke(this, EventArgs.Empty);
             isSelected = false;
             HideRange();
             return false;
@@ -77,7 +77,7 @@ public class EnemyLogic : MonoBehaviour
     private void ShowRange()
     {
         range.gameObject.SetActive(true);
-        OnSelected?.Invoke(this, EventArgs.Empty);
+        EnemyOnSelected?.Invoke(this, EventArgs.Empty);
     }
 
     private void HideRange()

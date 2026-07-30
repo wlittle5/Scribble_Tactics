@@ -17,11 +17,11 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject range;
     [SerializeField] float moveSpeed = 0.5f;
 
-
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
     private int hitData;
+   
 
     private RaycastHit rayCastHit;
     private Vector3 mousePos;
@@ -120,4 +120,8 @@ public class Player : MonoBehaviour
         return isMoving;
     }
 
+    /*public bool CanBattle()
+    {
+
+    }*/
 }
