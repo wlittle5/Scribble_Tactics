@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Analytics.IAnalytic;
+using UnityEngine.Events;
+using System;
 
 public class ClickLogic : MonoBehaviour
 {
+    UnityEvent<RaycastHit, int> OnObjectClicked;
+    UnityEvent<bool> OnClickedObjectWithinRange;
+
     const string PLAYER = "Player";
     const string RANGE = "Range";
     const string PAPER = "Paper";
@@ -39,45 +44,34 @@ public class ClickLogic : MonoBehaviour
 
     private void RayCastLogic()
     {
-        CastTheRay();
+        RaycastHit objectHit = CastTheRay();
+        
+        int objectHitLayer = objectHit.transform.gameObject.layer;
+
+        if (objectHitLayer == rangeLayerMask)
+        {
+            if (CastTheRay(boundaryLayerMask))
+            {
+
+            }
+        }
        
     }
 
-    private RaycastHit CastTheRay(int layerMask)
+    private bool CastTheRay(int layerMask)
     {
         Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(myRay, out RaycastHit rayCastHit, layerMask);
-        int layerData = rayCastHit.transform.gameObject.layer;
+        bool isHit = Physics.Raycast(myRay, out RaycastHit rayCastHit, layerMask);
 
-        return rayCastHit;
+        return isHit;
     }
 
     private RaycastHit CastTheRay()
     {
         Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(myRay, out RaycastHit rayCastHit);
-        int layerData = rayCastHit.transform.gameObject.layer;
 
         return rayCastHit;
     }
 
-    private int CastTheRayLayer(int layerMask)
-    {
-        Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(myRay, out RaycastHit rayCastHit, layerMask);
-        int layerData = rayCastHit.transform.gameObject.layer;
-
-        Debug.Log(layerData);
-        return layerData;
-    }
-
-    private int CastTheRayLayer()
-    {
-        Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(myRay, out RaycastHit rayCastHit);
-        int layerData = rayCastHit.transform.gameObject.layer;
-
-        Debug.Log(layerData);
-        return layerData;
-    }
 }
