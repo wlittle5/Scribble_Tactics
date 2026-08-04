@@ -17,6 +17,20 @@ public class SoundManager: MonoBehaviour
     {
         Player.Instance.OnSelected += Player_OnSelected;
         Player.Instance.OnDeSelected += Player_OnDeSelected;
+        EnemyLogic.Instance.EnemyOnSelected += Instance_EnemyOnSelected;
+        EnemyLogic.Instance.EnemyOnDeSelected += Instance_EnemyOnDeSelected;
+    }
+
+    private void Instance_EnemyOnDeSelected(object sender, System.EventArgs e)
+    {
+        EnemyLogic enemy = EnemyLogic.Instance;
+        PlaySound(audioClipRefsSO.deselectedPlayer, enemy.transform.position);
+    }
+
+    private void Instance_EnemyOnSelected(object sender, System.EventArgs e)
+    {
+        EnemyLogic enemy = EnemyLogic.Instance;
+        PlaySound(audioClipRefsSO.selectedPlayer, enemy.transform.position);
     }
 
     private void Player_OnDeSelected(object sender, System.EventArgs e)
