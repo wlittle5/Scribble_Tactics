@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Analytics.IAnalytic;
 using UnityEngine.Events;
-using System;
 
 public class ClickLogic : MonoBehaviour
 {
-    UnityEvent<RaycastHit, int> OnObjectClicked;
-    UnityEvent<bool> OnClickedObjectWithinRange;
+    public UnityEvent<RaycastHit, int> OnObjectClicked;
+    public UnityEvent<bool> OnClickedObjectWithinRange;
 
     const string PLAYER = "Player";
     const string RANGE = "Range";
@@ -48,11 +47,13 @@ public class ClickLogic : MonoBehaviour
         
         int objectHitLayer = objectHit.transform.gameObject.layer;
 
+        OnObjectClicked.Invoke(objectHit, objectHitLayer);
+
         if (objectHitLayer == rangeLayerMask)
         {
             if (CastTheRay(boundaryLayerMask))
             {
-
+                OnClickedObjectWithinRange.Invoke(true);
             }
         }
        
