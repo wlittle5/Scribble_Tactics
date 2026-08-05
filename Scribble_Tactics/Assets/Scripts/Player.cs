@@ -31,12 +31,8 @@ public class Player : MonoBehaviour
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
-    private int hitData;
+    private int layerHit;
    
-
-    private RaycastHit rayCastHit;
-    private Vector3 mousePos;
-
     private void Awake()
     {
         Instance = this;
@@ -53,26 +49,26 @@ public class Player : MonoBehaviour
     {
         if ((e.isPlayer || e.isWithinRange) && e.isWithinBounds)
         {
-            if (MoveCheck())
-                MoveCharacter();
+            if (MoveCheck(e.objectClicked.transform.gameObject.layer))
+                MoveCharacter(e.objectClicked);
         }
     }
-    private bool MoveCheck()
+    private bool MoveCheck(int layerHit)
     {
 
-        if ((hitData == 6) && !isSelected)
+        if ((layerHit == 6) && !isSelected)
         {
             isSelected = true;
             ShowRange();
             return false;
         }
 
-        if ((hitData == 7) && isSelected)
+        if ((layerHit == 7) && isSelected)
         {
             return true;
         }
 
-        if (((hitData != 7) || (hitData != 6)) && isSelected)
+        if (((layerHit != 7) || (layerHit != 6)) && isSelected)
         {
             OnDeSelected?.Invoke(this, EventArgs.Empty);
             isSelected = false;
@@ -86,13 +82,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void MoveCharacter()
+    private void MoveCharacter(RaycastHit rayCastHit)
     {
         isMoving = true;
         HideRange();
+        
         float step = moveSpeed * Time.deltaTime;
-        mousePos = rayCastHit.point;
+        Vector3 mousePos = rayCastHit.point;
         mousePos.z = transform.position.z;
+        
         transform.position = Vector3.MoveTowards(transform.position, mousePos, step);
 
         if (transform.position == mousePos)
@@ -101,7 +99,6 @@ public class Player : MonoBehaviour
             canMove = false;
             isMoving = false;
         }
-
     }
 
     private void ShowRange()
