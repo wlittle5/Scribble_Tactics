@@ -601,7 +601,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.7, y: 0.8635745, z: -22.16}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 0.036578, y: 0.036578, z: 0.036578}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1803,6 +1803,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d57c14f8a5f48468e3cae984754cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnObjectClicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 837790390}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnClickedObjectWithinRange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1409637778
 Transform:
   m_ObjectHideFlags: 0

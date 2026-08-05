@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Analytics.IAnalytic;
 using UnityEngine.Events;
+using System;
 
 public class ClickLogic : MonoBehaviour
 {
-    public UnityEvent<RaycastHit, int> OnObjectClicked;
-    public UnityEvent<bool> OnClickedObjectWithinRange;
+    public event EventHandler<OnMouseClickedEventArgs> OnMouseClicked;
+    public class OnMouseClickedEventArgs : EventArgs
+    {
+        public RaycastHit objectClicked;
+        public bool isPlayer;
+        public bool isWithinRange;
+        public bool isWithinBounds;
+        public bool isEnemy;
+    }
+
+    public static ClickLogic Instance { get; private set; }
+
 
     const string PLAYER = "Player";
     const string RANGE = "Range";
@@ -19,12 +30,16 @@ public class ClickLogic : MonoBehaviour
     int boundaryLayerMask;
     int enemyLayerMask;
 
-    void Start()
+    private void Awake()
+    {
+        Instance = this;
+    }
+    private void Start()
     {
         GetLayerMasks();
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonUp(0))
         {
@@ -43,26 +58,19 @@ public class ClickLogic : MonoBehaviour
 
     private void RayCastLogic()
     {
-        RaycastHit objectHit = CastTheRay();
-        
-        int objectHitLayer = objectHit.transform.gameObject.layer;
-
-        OnObjectClicked.Invoke(objectHit, objectHitLayer);
-
-        if (objectHitLayer == rangeLayerMask)
-        {
-            if (CastTheRay(boundaryLayerMask))
-            {
-                OnClickedObjectWithinRange.Invoke(true);
-            }
-        }
-       
+        OnMouseClicked?.Invoke(this, new OnMouseClickedEventArgs {
+            objectClicked = CastTheRay(),
+            isPlayer = IsPlayer(),
+            isWithinRange = IsWithinRange(),
+            isWithinBounds = IsWithinBoundary(),
+            isEnemy = IsEnemy()
+        });
     }
 
     private bool CastTheRay(int layerMask)
     {
         Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        bool isHit = Physics.Raycast(myRay, out RaycastHit rayCastHit, layerMask);
+        bool isHit = Physics.Raycast(myRay, layerMask);
 
         return isHit;
     }
@@ -75,4 +83,23 @@ public class ClickLogic : MonoBehaviour
         return rayCastHit;
     }
 
+    private bool IsWithinRange()
+    {
+        return CastTheRay(rangeLayerMask);
+    }
+
+    private bool IsWithinBoundary()
+    {
+        return CastTheRay(boundaryLayerMask);
+    }
+
+    private bool IsEnemy()
+    {
+        return CastTheRay(enemyLayerMask);
+    }
+
+    private bool IsPlayer()
+    {
+        return CastTheRay(playerLayerMask);
+    }
 }

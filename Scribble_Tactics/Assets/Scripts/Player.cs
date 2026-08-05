@@ -6,6 +6,7 @@ using Input = UnityEngine.Input;
 using UnityEngine.Windows;
 using System;
 using UnityEngine.Events;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +17,16 @@ public class Player : MonoBehaviour
     
     [SerializeField] GameObject range;
     [SerializeField] float moveSpeed = 0.5f;
+
+    const string PLAYER = "Player";
+    const string RANGE = "Range";
+    const string PAPER = "Paper";
+    const string ENEMY = "Enemy";
+
+    int playerLayer;
+    int rangeLayer;
+    int boundaryLayer;
+    int enemyLayer;
 
     private bool isSelected = false;
     private bool canMove = false;
@@ -30,28 +41,22 @@ public class Player : MonoBehaviour
     {
         Instance = this;
     }
-    void Update()
+
+    private void Start()
     {
+        ClickLogic.Instance.OnMouseClicked += ClickLogic_OnMouseClicked;
 
-        if (Input.GetMouseButtonUp(0) && isMoving != true)
-        {
-            GetLayer();
-            canMove = MoveCheck();
-        }
-
-        if (canMove)
-        {
-            MoveCharacter();
-        }
+        GetLayers();
     }
 
-    private void GetLayer()
+    private void ClickLogic_OnMouseClicked(object sender, ClickLogic.OnMouseClickedEventArgs e)
     {
-        Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(myRay, out rayCastHit);
-        hitData = rayCastHit.transform.gameObject.layer;
+        if ((e.isPlayer || e.isWithinRange) && e.isWithinBounds)
+        {
+            if (MoveCheck())
+                MoveCharacter();
+        }
     }
-
     private bool MoveCheck()
     {
 
@@ -120,6 +125,13 @@ public class Player : MonoBehaviour
         return isMoving;
     }
 
+    private void GetLayers()
+    {
+        playerLayer = LayerMask.GetMask(PLAYER);
+        boundaryLayer = LayerMask.GetMask(PAPER);
+        enemyLayer = LayerMask.GetMask(ENEMY);
+        rangeLayer = LayerMask.GetMask(RANGE);
+    }
     /*public bool CanBattle()
     {
 
