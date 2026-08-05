@@ -50,10 +50,10 @@ public class ClickLogic : MonoBehaviour
 
     private void GetLayerMasks()
     {
-        playerLayerMask = LayerMask.GetMask(PLAYER);
-        boundaryLayerMask = LayerMask.GetMask(PAPER);
-        enemyLayerMask = LayerMask.GetMask(ENEMY);
-        rangeLayerMask = LayerMask.GetMask(RANGE);
+        playerLayerMask = LayerMask.NameToLayer(PLAYER);
+        boundaryLayerMask = LayerMask.NameToLayer(PAPER);
+        enemyLayerMask = LayerMask.NameToLayer(ENEMY);
+        rangeLayerMask = LayerMask.NameToLayer(RANGE);
     }
 
     private void RayCastLogic()

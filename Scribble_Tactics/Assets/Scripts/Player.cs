@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
-    private int layerHit;
    
     private void Awake()
     {
@@ -47,15 +46,18 @@ public class Player : MonoBehaviour
 
     private void ClickLogic_OnMouseClicked(object sender, ClickLogic.OnMouseClickedEventArgs e)
     {
-        if ((e.isPlayer || e.isWithinRange) && e.isWithinBounds)
-        {
-            if (MoveCheck(e.objectClicked.transform.gameObject.layer))
-                MoveCharacter(e.objectClicked);
-        }
+     
+
+        if (isMoving != true)
+            canMove = MoveCheck(e.objectClicked.transform.gameObject.layer);
+            
+        if (canMove)
+            MoveCharacter(e.objectClicked);
+       
     }
+
     private bool MoveCheck(int layerHit)
     {
-
         if ((layerHit == 6) && !isSelected)
         {
             isSelected = true;
@@ -86,19 +88,22 @@ public class Player : MonoBehaviour
     {
         isMoving = true;
         HideRange();
+
+        Debug.Log(rayCastHit.transform.position);
         
         float step = moveSpeed * Time.deltaTime;
         Vector3 mousePos = rayCastHit.point;
-        mousePos.z = transform.position.z;
+        //mousePos.z = transform.position.z;
         
         transform.position = Vector3.MoveTowards(transform.position, mousePos, step);
 
-        if (transform.position == mousePos)
+        /*if (transform.position == mousePos)
         {
             isSelected = false;
             canMove = false;
             isMoving = false;
-        }
+        }*/
+
     }
 
     private void ShowRange()
@@ -124,10 +129,10 @@ public class Player : MonoBehaviour
 
     private void GetLayers()
     {
-        playerLayer = LayerMask.GetMask(PLAYER);
-        boundaryLayer = LayerMask.GetMask(PAPER);
-        enemyLayer = LayerMask.GetMask(ENEMY);
-        rangeLayer = LayerMask.GetMask(RANGE);
+        playerLayer = LayerMask.NameToLayer(PLAYER);
+        boundaryLayer = LayerMask.NameToLayer(PAPER);
+        enemyLayer = LayerMask.NameToLayer(ENEMY);
+        rangeLayer = LayerMask.NameToLayer(RANGE);
     }
     /*public bool CanBattle()
     {
