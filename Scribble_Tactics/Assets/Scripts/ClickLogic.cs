@@ -41,6 +41,8 @@ public class ClickLogic : MonoBehaviour
 
     private void Update()
     {
+        //Debug.DrawLine()
+        //Debug.Log(Input.mousePosition);
         if (Input.GetMouseButtonUp(0))
         {
             RayCastLogic();

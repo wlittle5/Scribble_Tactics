@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public static Player Instance { get; private set; }
     
     [SerializeField] GameObject range;
-    [SerializeField] float moveSpeed = 0.5f;
+    [SerializeField] float moveSpeed = 1.0f;
 
     const string PLAYER = "Player";
     const string RANGE = "Range";
@@ -31,7 +31,10 @@ public class Player : MonoBehaviour
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
-   
+
+    private Vector3 mousePos;
+    private RaycastHit targetObject; 
+
     private void Awake()
     {
         Instance = this;
@@ -44,20 +47,26 @@ public class Player : MonoBehaviour
         GetLayers();
     }
 
+    private void Update()
+    {
+        if (canMove)
+            MoveCharacter(targetObject);
+    }
+
     private void ClickLogic_OnMouseClicked(object sender, ClickLogic.OnMouseClickedEventArgs e)
     {
-     
-
         if (isMoving != true)
+        {
             canMove = MoveCheck(e.objectClicked.transform.gameObject.layer);
+            targetObject = (e.objectClicked);
+        }
             
-        if (canMove)
-            MoveCharacter(e.objectClicked);
-       
     }
 
     private bool MoveCheck(int layerHit)
     {
+        Debug.Log(layerHit);
+
         if ((layerHit == 6) && !isSelected)
         {
             isSelected = true;
@@ -84,26 +93,24 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void MoveCharacter(RaycastHit rayCastHit)
+    private void MoveCharacter(RaycastHit objectClicked)
     {
         isMoving = true;
         HideRange();
 
-        Debug.Log(rayCastHit.transform.position);
-        
         float step = moveSpeed * Time.deltaTime;
-        Vector3 mousePos = rayCastHit.point;
-        //mousePos.z = transform.position.z;
-        
+        mousePos = objectClicked.point;
+        mousePos.z = transform.position.z;
+
+   
         transform.position = Vector3.MoveTowards(transform.position, mousePos, step);
 
-        /*if (transform.position == mousePos)
+        if (transform.position == mousePos)
         {
             isSelected = false;
             canMove = false;
             isMoving = false;
-        }*/
-
+        }
     }
 
     private void ShowRange()
