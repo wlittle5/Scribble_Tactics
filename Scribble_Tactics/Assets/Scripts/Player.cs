@@ -65,8 +65,6 @@ public class Player : MonoBehaviour
 
     private bool MoveCheck(int layerHit)
     {
-        Debug.Log(layerHit);
-
         if ((layerHit == 6) && !isSelected)
         {
             isSelected = true;
