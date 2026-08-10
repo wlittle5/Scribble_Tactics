@@ -57,27 +57,31 @@ public class Player : MonoBehaviour
     {
         if (isMoving != true)
         {
-            canMove = MoveCheck(e.objectClicked.transform.gameObject.layer);
+            canMove = MoveCheck(e.isPlayer, e.isWithinRange, e.isWithinBounds, e.isEnemy);
             targetObject = (e.objectClicked);
-        }
-            
+        }   
     }
 
-    private bool MoveCheck(int layerHit)
+    private bool MoveCheck(bool isPlayer, bool isWithinRange, bool isWithinBoundary, bool isEnemy)
     {
-        if ((layerHit == 6) && !isSelected)
+        if (isPlayer && !isSelected)
         {
             isSelected = true;
             ShowRange();
             return false;
         }
 
-        if ((layerHit == 7) && isSelected)
+        if (isWithinRange && isWithinBoundary && isSelected && !isEnemy)
         {
             return true;
         }
 
-        if (((layerHit != 7) || (layerHit != 6)) && isSelected)
+        if (isWithinRange && isWithinBoundary && isEnemy && isSelected)
+        {
+            Debug.Log("It's time to d-d-d-d-d-duel!!!");
+        }
+
+        if ((!isPlayer || !isWithinRange) & isSelected)
         {
             OnDeSelected?.Invoke(this, EventArgs.Empty);
             isSelected = false;

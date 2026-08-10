@@ -94,5 +94,5 @@ public class EnemyLogic : MonoBehaviour
     {
         return isMoving;
     }
-
+   
 }
