@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 {
     public event EventHandler OnSelected;
     public event EventHandler OnDeSelected;
+    public event EventHandler OnBattleInitiate;
 
     public static Player Instance { get; private set; }
     
@@ -78,7 +79,7 @@ public class Player : MonoBehaviour
 
         if (isWithinRange && isWithinBoundary && isEnemy && isSelected)
         {
-            Debug.Log("It's time to d-d-d-d-d-duel!!!");
+            CanBattle();
         }
 
         if ((!isPlayer || !isWithinRange) & isSelected)
@@ -143,8 +144,9 @@ public class Player : MonoBehaviour
         enemyLayer = LayerMask.NameToLayer(ENEMY);
         rangeLayer = LayerMask.NameToLayer(RANGE);
     }
-    /*public bool CanBattle()
+    
+    private void CanBattle()
     {
-
-    }*/
+        OnBattleInitiate?.Invoke(this, EventArgs.Empty);
+    }
 }

@@ -28,7 +28,7 @@ public class EnemyLogic : MonoBehaviour
     {
         Instance = this;
     }
-    void Update()
+  /*  void Update()
     {
 
         if (Input.GetMouseButtonUp(0) && isMoving != true)
@@ -94,5 +94,5 @@ public class EnemyLogic : MonoBehaviour
     {
         return isMoving;
     }
-   
+   */
 }

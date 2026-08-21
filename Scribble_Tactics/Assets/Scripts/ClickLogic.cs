@@ -88,7 +88,7 @@ public class ClickLogic : MonoBehaviour
     private bool CastTheRay(int layerMask)
     {
         Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        bool isHit = Physics.Raycast(myRay, out RaycastHit rayCastHit, 1000f, layerMask);
+        bool isHit = Physics.Raycast(myRay, Mathf.Infinity, layerMask);
 
         return isHit;
     }
