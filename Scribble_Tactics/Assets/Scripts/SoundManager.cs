@@ -18,20 +18,19 @@ public class SoundManager: MonoBehaviour
         Player.Instance.OnSelected += Player_OnSelected;
         Player.Instance.OnDeSelected += Player_OnDeSelected;
         Player.Instance.OnBattleInitiate += Player_OnBattleInitiate;
-        EnemyLogic.Instance.EnemyOnSelected += EnemyLogic_EnemyOnSelected;
-        EnemyLogic.Instance.EnemyOnDeSelected += EnemyLogic_EnemyOnDeSelected;
+        
+        EnemyLogic.OnEnemySelect += EnemyLogic_OnEnemySelect;
     }
 
-    private void EnemyLogic_EnemyOnDeSelected(object sender, System.EventArgs e)
+    private void EnemyLogic_OnEnemySelect(object sender, EnemyLogic.OnEnemySelectArgs e)
     {
-        EnemyLogic enemy = EnemyLogic.Instance;
-        PlaySound(audioClipRefsSO.deselectedPlayer, enemy.transform.position);
-    }
+        EnemyLogic enemy = e.enemy;
+        
+        if (e.isSelected)
+            PlaySound(audioClipRefsSO.selectedPlayer, enemy.transform.position);
 
-    private void EnemyLogic_EnemyOnSelected(object sender, System.EventArgs e)
-    {
-        EnemyLogic enemy = EnemyLogic.Instance;
-        PlaySound(audioClipRefsSO.selectedPlayer, enemy.transform.position);
+        if (!e.isSelected)
+            PlaySound(audioClipRefsSO.deselectedPlayer, enemy.transform.position);
     }
 
     private void Player_OnDeSelected(object sender, System.EventArgs e)

@@ -19,16 +19,6 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject range;
     [SerializeField] float moveSpeed = 1.0f;
 
-    const string PLAYER = "Player";
-    const string RANGE = "Range";
-    const string PAPER = "Paper";
-    const string ENEMY = "Enemy";
-
-    int playerLayer;
-    int rangeLayer;
-    int boundaryLayer;
-    int enemyLayer;
-
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
@@ -44,8 +34,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         ClickLogic.Instance.OnMouseClicked += ClickLogic_OnMouseClicked;
-
-        GetLayers();
     }
 
     private void Update()
@@ -135,14 +123,6 @@ public class Player : MonoBehaviour
     public bool IsMoving() 
     {
         return isMoving;
-    }
-
-    private void GetLayers()
-    {
-        playerLayer = LayerMask.NameToLayer(PLAYER);
-        boundaryLayer = LayerMask.NameToLayer(PAPER);
-        enemyLayer = LayerMask.NameToLayer(ENEMY);
-        rangeLayer = LayerMask.NameToLayer(RANGE);
     }
     
     private void CanBattle()

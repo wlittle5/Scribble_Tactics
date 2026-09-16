@@ -6,83 +6,63 @@ using Input = UnityEngine.Input;
 using UnityEngine.Windows;
 using System;
 using UnityEngine.Events;
+using static ClickLogic;
 
 public class EnemyLogic : MonoBehaviour
 {
-    public event EventHandler EnemyOnSelected;
-    public event EventHandler EnemyOnDeSelected;
-
-    public static EnemyLogic Instance { get; private set; }
+    public static event EventHandler<OnEnemySelectArgs> OnEnemySelect;
+    public class OnEnemySelectArgs : EventArgs
+    {
+        public EnemyLogic enemy;
+        public bool isSelected;
+    }
     
     [SerializeField] GameObject range;
 
     private bool isSelected = false;
-    private bool canMove = false;
     private bool isMoving = false;
-    private int hitData;
 
-    private RaycastHit rayCastHit;
-    private Vector3 mousePos;
-
-    private void Awake()
+    private void Start()
     {
-        Instance = this;
+        ClickLogic.Instance.OnMouseClicked += ClickLogic_OnMouseClicked;
+
     }
-  /*  void Update()
-    {
 
-        if (Input.GetMouseButtonUp(0) && isMoving != true)
+    private void ClickLogic_OnMouseClicked(object sender, OnMouseClickedEventArgs e)
+    {
+        if (e.isEnemy == true && e.objectClicked.collider.gameObject == this.gameObject && !isSelected)
         {
-            GetLayer();
-            canMove = MoveCheck();
-        }
-    }
-
-    private void GetLayer()
-    {
-        Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(myRay, out rayCastHit);
-        hitData = rayCastHit.transform.gameObject.layer;
-    }
-
-    private bool MoveCheck()
-    {
-
-        if ((hitData == 9) && !isSelected)
-        {
-            isSelected = true;
             ShowRange();
-            return false;
         }
 
-        if ((hitData == 7) && isSelected)
+        if (e.isEnemy != true && isSelected == true)
         {
-            return true;
-        }
-
-        if (((hitData != 7) || (hitData != 9)) && isSelected)
-        {
-            EnemyOnDeSelected?.Invoke(this, EventArgs.Empty);
-            isSelected = false;
             HideRange();
-            return false;
-        }
-
-        else
-        {
-            return isSelected;
         }
     }
 
     private void ShowRange()
     {
         range.gameObject.SetActive(true);
-        EnemyOnSelected?.Invoke(this, EventArgs.Empty);
+        isSelected = true;
+
+        OnEnemySelect?.Invoke(this, new OnEnemySelectArgs
+        {
+            enemy = this,
+            isSelected = isSelected
+        });
     }
 
     private void HideRange()
     {
         range.gameObject.SetActive(false);
+        isSelected = false;
+
+        OnEnemySelect?.Invoke(this, new OnEnemySelectArgs
+        {
+            enemy = this,
+            isSelected = isSelected
+        });
     }
     
     public bool IsSelected()
@@ -94,5 +74,5 @@ public class EnemyLogic : MonoBehaviour
     {
         return isMoving;
     }
-   */
+   
 }
