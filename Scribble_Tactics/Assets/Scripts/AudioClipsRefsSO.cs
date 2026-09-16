@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class AudioClipsRefsSO : ScriptableObject
 {
-    public AudioClip[] selectedPlayer;
+    public AudioClip selectedPlayer;
     public AudioClip deselectedPlayer;
     public AudioClip[] knightFootstep;
+    public AudioClip knightBattleInitiate;
 }

@@ -6,68 +6,83 @@ using Input = UnityEngine.Input;
 using UnityEngine.Windows;
 using System;
 using UnityEngine.Events;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Player : MonoBehaviour
 {
     public event EventHandler OnSelected;
     public event EventHandler OnDeSelected;
+    public event EventHandler OnBattleInitiate;
 
     public static Player Instance { get; private set; }
     
     [SerializeField] GameObject range;
-    [SerializeField] float moveSpeed = 0.5f;
+    [SerializeField] float moveSpeed = 1.0f;
+
+    const string PLAYER = "Player";
+    const string RANGE = "Range";
+    const string PAPER = "Paper";
+    const string ENEMY = "Enemy";
+
+    int playerLayer;
+    int rangeLayer;
+    int boundaryLayer;
+    int enemyLayer;
 
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
-    private int hitData;
-   
 
-    private RaycastHit rayCastHit;
     private Vector3 mousePos;
+    private RaycastHit targetObject; 
 
     private void Awake()
     {
         Instance = this;
     }
-    void Update()
+
+    private void Start()
     {
+        ClickLogic.Instance.OnMouseClicked += ClickLogic_OnMouseClicked;
 
-        if (Input.GetMouseButtonUp(0) && isMoving != true)
-        {
-            GetLayer();
-            canMove = MoveCheck();
-        }
+        GetLayers();
+    }
 
+    private void Update()
+    {
         if (canMove)
+            MoveCharacter(targetObject);
+    }
+
+    private void ClickLogic_OnMouseClicked(object sender, ClickLogic.OnMouseClickedEventArgs e)
+    {
+        if (isMoving != true)
         {
-            MoveCharacter();
-        }
+            canMove = MoveCheck(e.isPlayer, e.isWithinRange, e.isWithinBounds, e.isEnemy);
+            targetObject = (e.objectClicked);
+        }   
     }
 
-    private void GetLayer()
+    private bool MoveCheck(bool isPlayer, bool isWithinRange, bool isWithinBoundary, bool isEnemy)
     {
-        Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(myRay, out rayCastHit);
-        hitData = rayCastHit.transform.gameObject.layer;
-    }
-
-    private bool MoveCheck()
-    {
-
-        if ((hitData == 6) && !isSelected)
+        if (isPlayer && !isSelected)
         {
             isSelected = true;
             ShowRange();
             return false;
         }
 
-        if ((hitData == 7) && isSelected)
+        if (isWithinRange && isWithinBoundary && isSelected && !isEnemy)
         {
             return true;
         }
 
-        if (((hitData != 7) || (hitData != 6)) && isSelected)
+        if (isWithinRange && isWithinBoundary && isEnemy && isSelected)
+        {
+            CanBattle();
+        }
+
+        if ((!isPlayer || !isWithinRange) & isSelected)
         {
             OnDeSelected?.Invoke(this, EventArgs.Empty);
             isSelected = false;
@@ -81,13 +96,16 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void MoveCharacter()
+    private void MoveCharacter(RaycastHit objectClicked)
     {
         isMoving = true;
         HideRange();
+
         float step = moveSpeed * Time.deltaTime;
-        mousePos = rayCastHit.point;
+        mousePos = objectClicked.point;
         mousePos.z = transform.position.z;
+
+   
         transform.position = Vector3.MoveTowards(transform.position, mousePos, step);
 
         if (transform.position == mousePos)
@@ -96,7 +114,6 @@ public class Player : MonoBehaviour
             canMove = false;
             isMoving = false;
         }
-
     }
 
     private void ShowRange()
@@ -120,8 +137,16 @@ public class Player : MonoBehaviour
         return isMoving;
     }
 
-    /*public bool CanBattle()
+    private void GetLayers()
     {
-
-    }*/
+        playerLayer = LayerMask.NameToLayer(PLAYER);
+        boundaryLayer = LayerMask.NameToLayer(PAPER);
+        enemyLayer = LayerMask.NameToLayer(ENEMY);
+        rangeLayer = LayerMask.NameToLayer(RANGE);
+    }
+    
+    private void CanBattle()
+    {
+        OnBattleInitiate?.Invoke(this, EventArgs.Empty);
+    }
 }

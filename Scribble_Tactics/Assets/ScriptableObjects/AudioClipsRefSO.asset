@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310275f9a42ac56439af58e07c365bae, type: 3}
   m_Name: AudioClipsRefSO
   m_EditorClassIdentifier: 
-  selectedPlayer:
-  - {fileID: 8300000, guid: 83aa9d9df0a5c3a479762de6d5391eb6, type: 3}
-  - {fileID: 8300000, guid: ab15464793b01eb499b070135ab6a11f, type: 3}
-  - {fileID: 8300000, guid: 1cde6e0acac1baa46a0679ec82792b6c, type: 3}
+  selectedPlayer: {fileID: 8300000, guid: 83aa9d9df0a5c3a479762de6d5391eb6, type: 3}
   deselectedPlayer: {fileID: 8300000, guid: f316e8b9bf4a3cf439768ecf33eefc9f, type: 3}
   knightFootstep:
   - {fileID: 8300000, guid: 8554100689e4767468a32aae06ede23d, type: 3}
   - {fileID: 8300000, guid: 21c78df94167e4040825311921e69d8c, type: 3}
   - {fileID: 8300000, guid: 9f022d78b435da6488eeef9c28c86db0, type: 3}
+  knightBattleInitiate: {fileID: 8300000, guid: 657db74eed19f404d8657a34412e0576,
+    type: 3}

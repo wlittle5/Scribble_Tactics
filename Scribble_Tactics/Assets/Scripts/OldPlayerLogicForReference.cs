@@ -7,34 +7,37 @@ using UnityEngine.Windows;
 using System;
 using UnityEngine.Events;
 
-public class EnemyLogic : MonoBehaviour
+public class OldPlayerLogicForRerence : MonoBehaviour
 {
-    public event EventHandler EnemyOnSelected;
-    public event EventHandler EnemyOnDeSelected;
+    public event EventHandler OnSelected;
+    public event EventHandler OnDeSelected;
 
-    public static EnemyLogic Instance { get; private set; }
-    
+
     [SerializeField] GameObject range;
+    [SerializeField] float moveSpeed = 0.5f;
 
     private bool isSelected = false;
     private bool canMove = false;
     private bool isMoving = false;
     private int hitData;
 
+
     private RaycastHit rayCastHit;
     private Vector3 mousePos;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-  /*  void Update()
+
+    void Update()
     {
 
         if (Input.GetMouseButtonUp(0) && isMoving != true)
         {
             GetLayer();
             canMove = MoveCheck();
+        }
+
+        if (canMove)
+        {
+            MoveCharacter();
         }
     }
 
@@ -48,7 +51,7 @@ public class EnemyLogic : MonoBehaviour
     private bool MoveCheck()
     {
 
-        if ((hitData == 9) && !isSelected)
+        if ((hitData == 6) && !isSelected)
         {
             isSelected = true;
             ShowRange();
@@ -60,9 +63,9 @@ public class EnemyLogic : MonoBehaviour
             return true;
         }
 
-        if (((hitData != 7) || (hitData != 9)) && isSelected)
+        if (((hitData != 7) || (hitData != 6)) && isSelected)
         {
-            EnemyOnDeSelected?.Invoke(this, EventArgs.Empty);
+            OnDeSelected?.Invoke(this, EventArgs.Empty);
             isSelected = false;
             HideRange();
             return false;
@@ -74,25 +77,47 @@ public class EnemyLogic : MonoBehaviour
         }
     }
 
+    private void MoveCharacter()
+    {
+        isMoving = true;
+        HideRange();
+        float step = moveSpeed * Time.deltaTime;
+        mousePos = rayCastHit.point;
+        mousePos.z = transform.position.z;
+        transform.position = Vector3.MoveTowards(transform.position, mousePos, step);
+
+        if (transform.position == mousePos)
+        {
+            isSelected = false;
+            canMove = false;
+            isMoving = false;
+        }
+
+    }
+
     private void ShowRange()
     {
         range.gameObject.SetActive(true);
-        EnemyOnSelected?.Invoke(this, EventArgs.Empty);
+        OnSelected?.Invoke(this, EventArgs.Empty);
     }
 
     private void HideRange()
     {
         range.gameObject.SetActive(false);
     }
-    
+
     public bool IsSelected()
     {
         return isSelected;
     }
 
-    public bool IsMoving() 
+    public bool IsMoving()
     {
         return isMoving;
     }
-   */
+
+    /*public bool CanBattle()
+    {
+
+    }*/
 }
