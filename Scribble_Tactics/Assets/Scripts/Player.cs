@@ -10,11 +10,18 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class Player : MonoBehaviour
 {
-    public event EventHandler OnSelected;
-    public event EventHandler OnDeSelected;
-    public event EventHandler OnBattleInitiate;
+    public static event EventHandler<OnPlayerSelectArgs> OnPlayerSelect;
+    public class OnPlayerSelectArgs : EventArgs
+    {
+        public Player player;
+        public bool isSelected;
+    }
 
-    public static Player Instance { get; private set; }
+    public static event EventHandler<OnBattleInitiateArgs> OnBattleInitiate;
+    public class OnBattleInitiateArgs : EventArgs
+    {
+        public Player player;
+    }
     
     [SerializeField] GameObject range;
     [SerializeField] float moveSpeed = 1.0f;
@@ -25,11 +32,6 @@ public class Player : MonoBehaviour
 
     private Vector3 mousePos;
     private RaycastHit targetObject; 
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private void Start()
     {
@@ -46,17 +48,18 @@ public class Player : MonoBehaviour
     {
         if (isMoving != true)
         {
-            canMove = MoveCheck(e.isPlayer, e.isWithinRange, e.isWithinBounds, e.isEnemy);
+            canMove = MoveCheck(e.objectClicked, e.isPlayer, e.isWithinRange, e.isWithinBounds, e.isEnemy);
             targetObject = (e.objectClicked);
         }   
     }
 
-    private bool MoveCheck(bool isPlayer, bool isWithinRange, bool isWithinBoundary, bool isEnemy)
+    private bool MoveCheck(RaycastHit objectClicked, bool isPlayer, bool isWithinRange, bool isWithinBoundary, bool isEnemy)
     {
-        if (isPlayer && !isSelected)
+        if (isPlayer && objectClicked.collider.gameObject == this.gameObject && !isSelected )
         {
-            isSelected = true;
             ShowRange();
+            OnPlayerSelect?.Invoke(this, new OnPlayerSelectArgs { player = this, isSelected = isSelected });
+
             return false;
         }
 
@@ -72,9 +75,10 @@ public class Player : MonoBehaviour
 
         if ((!isPlayer || !isWithinRange) & isSelected)
         {
-            OnDeSelected?.Invoke(this, EventArgs.Empty);
             isSelected = false;
             HideRange();
+            OnPlayerSelect?.Invoke(this, new OnPlayerSelectArgs { player = this, isSelected = isSelected });
+
             return false;
         }
 
@@ -106,15 +110,18 @@ public class Player : MonoBehaviour
 
     private void ShowRange()
     {
+        isSelected = true;
+
         range.gameObject.SetActive(true);
-        OnSelected?.Invoke(this, EventArgs.Empty);
     }
 
     private void HideRange()
     {
+
         range.gameObject.SetActive(false);
+
     }
-    
+
     public bool IsSelected()
     {
         return isSelected;
@@ -127,6 +134,6 @@ public class Player : MonoBehaviour
     
     private void CanBattle()
     {
-        OnBattleInitiate?.Invoke(this, EventArgs.Empty);
+        OnBattleInitiate?.Invoke(this, new OnBattleInitiateArgs { player = this });
     }
 }
