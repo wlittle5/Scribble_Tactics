@@ -63,6 +63,7 @@ public class ClickLogic : MonoBehaviour
         enemyLayer = LayerMask.NameToLayer(ENEMY);
         rangeLayer = LayerMask.NameToLayer(RANGE);
 
+        Debug.Log(boundaryLayer);
     }
 
     private void ConvertLayersToLayerMasks()
@@ -71,6 +72,8 @@ public class ClickLogic : MonoBehaviour
         rangeLayerMask = (1 << rangeLayer); 
         boundaryLayerMask = (1 << boundaryLayer);
         enemyLayerMask = (1 << enemyLayer);
+
+        Debug.Log(boundaryLayerMask);
     }
 
     private void RayCastLogic()

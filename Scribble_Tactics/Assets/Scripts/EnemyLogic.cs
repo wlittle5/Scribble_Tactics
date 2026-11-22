@@ -25,7 +25,6 @@ public class EnemyLogic : MonoBehaviour
     private void Start()
     {
         ClickLogic.Instance.OnMouseClicked += ClickLogic_OnMouseClicked;
-
     }
 
     private void ClickLogic_OnMouseClicked(object sender, OnMouseClickedEventArgs e)
