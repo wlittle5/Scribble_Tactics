@@ -15,13 +15,13 @@ public class SoundManager: MonoBehaviour
     }
     private void Start()
     {
-        Player.OnPlayerSelect += Player_OnPlayerSelect;
-        Player.OnBattleInitiate += Player_OnBattleInitiate;
+        EventManager.Instance.OnPlayerSelect += EventManager_OnPlayerSelect;
+        EventManager.Instance.OnBattleInitiate += EventManager_OnBattleInitiate;
         
-        EnemyLogic.OnEnemySelect += EnemyLogic_OnEnemySelect;
+        EventManager.Instance.OnEnemySelect += EventManager_OnEnemySelect;
     }
 
-    private void EnemyLogic_OnEnemySelect(object sender, EnemyLogic.OnEnemySelectArgs e)
+    private void EventManager_OnEnemySelect(object sender, EventManager.OnEnemySelectArgs e)
     {
         EnemyLogic enemy = e.enemy;
         
@@ -32,7 +32,7 @@ public class SoundManager: MonoBehaviour
             PlaySound(audioClipRefsSO.deselectedPlayer, enemy.transform.position);
     }
 
-    private void Player_OnPlayerSelect(object sender, Player.OnPlayerSelectArgs e)
+    private void EventManager_OnPlayerSelect(object sender, EventManager.OnPlayerSelectArgs e)
     {
         Player player = e.player;
 
@@ -43,7 +43,7 @@ public class SoundManager: MonoBehaviour
             PlaySound(audioClipRefsSO.deselectedPlayer, player.transform.position);
     }
 
-    private void Player_OnBattleInitiate(object sender, Player.OnBattleInitiateArgs e)
+    private void EventManager_OnBattleInitiate(object sender, EventManager.OnBattleInitiateArgs e)
     {
         Player player = e.player;
         PlaySound(audioClipRefsSO.knightBattleInitiate, player.transform.position);

@@ -6,22 +6,12 @@ using UnityEngine.Events;
 using System;
 
 public class ClickLogic : MonoBehaviour
-{
-//Custom Event to shout what was clicked when mouse is pressed
-    public event EventHandler<OnMouseClickedEventArgs> OnMouseClicked;
-    public class OnMouseClickedEventArgs : EventArgs
-    {
-        public RaycastHit objectClicked;
-        public bool isPlayer;
-        public bool isWithinRange;
-        public bool isWithinBounds;
-        public bool isEnemy;
-    }
+{    
 
-//Singleton pattern
+    //Singleton pattern
     public static ClickLogic Instance { get; private set; }
 
-//Variables for getting the layers
+    //Variables for getting the layers
     const string PLAYER = "Player";
     const string RANGE = "Range";
     const string PAPER = "Paper";
@@ -78,7 +68,7 @@ public class ClickLogic : MonoBehaviour
 
     private void RayCastLogic()
     {
-        OnMouseClicked?.Invoke(this, new OnMouseClickedEventArgs 
+        EventManager.Instance.MouseClicked(new EventManager.OnMouseClickedEventArgs 
         {
             objectClicked = CastTheRay(),
             isPlayer = IsPlayer(),

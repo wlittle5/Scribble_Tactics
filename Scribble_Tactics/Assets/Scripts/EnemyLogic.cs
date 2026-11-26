@@ -9,14 +9,7 @@ using UnityEngine.Events;
 using static ClickLogic;
 
 public class EnemyLogic : MonoBehaviour
-{
-    public static event EventHandler<OnEnemySelectArgs> OnEnemySelect;
-    public class OnEnemySelectArgs : EventArgs
-    {
-        public EnemyLogic enemy;
-        public bool isSelected;
-    }
-    
+{ 
     [SerializeField] GameObject range;
 
     private bool isSelected = false;
@@ -24,10 +17,10 @@ public class EnemyLogic : MonoBehaviour
 
     private void Start()
     {
-        ClickLogic.Instance.OnMouseClicked += ClickLogic_OnMouseClicked;
+        EventManager.Instance.OnMouseClicked += EventManager_OnMouseClicked;
     }
 
-    private void ClickLogic_OnMouseClicked(object sender, OnMouseClickedEventArgs e)
+    private void EventManager_OnMouseClicked(object sender, EventManager.OnMouseClickedEventArgs e)
     {
         if (e.isEnemy == true && e.objectClicked.collider.gameObject == this.gameObject && !isSelected)
         {
@@ -45,7 +38,7 @@ public class EnemyLogic : MonoBehaviour
         range.gameObject.SetActive(true);
         isSelected = true;
 
-        OnEnemySelect?.Invoke(this, new OnEnemySelectArgs
+        EventManager.Instance.EnemySelected(new EventManager.OnEnemySelectArgs
         {
             enemy = this,
             isSelected = isSelected
@@ -57,7 +50,7 @@ public class EnemyLogic : MonoBehaviour
         range.gameObject.SetActive(false);
         isSelected = false;
 
-        OnEnemySelect?.Invoke(this, new OnEnemySelectArgs
+        EventManager.Instance.EnemySelected(new EventManager.OnEnemySelectArgs
         {
             enemy = this,
             isSelected = isSelected

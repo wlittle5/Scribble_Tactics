@@ -299,11 +299,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4842704063007727330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbd5c95e4a346e94284c4f52070aaaa7, type: 3}
+  m_Script: {fileID: 11500000, guid: 85b3eb4a400ff8140b006ac7bd652adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   range: {fileID: 2468336525477322790}
-  moveSpeed: 2
+  moveSpeed: 1
 --- !u!82 &2093190005291914998
 AudioSource:
   m_ObjectHideFlags: 0

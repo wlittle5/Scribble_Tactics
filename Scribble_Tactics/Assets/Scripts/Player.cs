@@ -10,18 +10,6 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class Player : MonoBehaviour
 {
-    public static event EventHandler<OnPlayerSelectArgs> OnPlayerSelect;
-    public class OnPlayerSelectArgs : EventArgs
-    {
-        public Player player;
-        public bool isSelected;
-    }
-
-    public static event EventHandler<OnBattleInitiateArgs> OnBattleInitiate;
-    public class OnBattleInitiateArgs : EventArgs
-    {
-        public Player player;
-    }
     
     [SerializeField] GameObject range;
     [SerializeField] float moveSpeed = 1.0f;
@@ -35,7 +23,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        ClickLogic.Instance.OnMouseClicked += ClickLogic_OnMouseClicked;
+        EventManager.Instance.OnMouseClicked += EventManager_OnMouseClicked;
     }
 
     private void Update()
@@ -44,7 +32,7 @@ public class Player : MonoBehaviour
             MoveCharacter(targetObject);
     }
 
-    private void ClickLogic_OnMouseClicked(object sender, ClickLogic.OnMouseClickedEventArgs e)
+    private void EventManager_OnMouseClicked(object sender, EventManager.OnMouseClickedEventArgs e)
     {
         if (isMoving != true)
         {
@@ -58,7 +46,7 @@ public class Player : MonoBehaviour
         if (isPlayer && objectClicked.collider.gameObject == this.gameObject && !isSelected )
         {
             ShowRange();
-            OnPlayerSelect?.Invoke(this, new OnPlayerSelectArgs { player = this, isSelected = isSelected });
+            EventManager.Instance.PlayerSelected(new EventManager.OnPlayerSelectArgs { player = this, isSelected = isSelected });
 
             return false;
         }
@@ -77,7 +65,7 @@ public class Player : MonoBehaviour
         {
             isSelected = false;
             HideRange();
-            OnPlayerSelect?.Invoke(this, new OnPlayerSelectArgs { player = this, isSelected = isSelected });
+            EventManager.Instance.PlayerSelected(new EventManager.OnPlayerSelectArgs { player = this, isSelected = isSelected });
 
             return false;
         }
@@ -134,6 +122,6 @@ public class Player : MonoBehaviour
     
     private void CanBattle()
     {
-        OnBattleInitiate?.Invoke(this, new OnBattleInitiateArgs { player = this });
+        EventManager.Instance.InitiateBattle(new EventManager.OnBattleInitiateArgs { player = this });
     }
 }
